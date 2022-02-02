@@ -8,7 +8,7 @@ import Header from '../../components/Header'
 import { CgWebsite } from 'react-icons/cg'
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { HiDotsVertical } from 'react-icons/hi'
-import NFTCard from '../../components/NFTCard'
+// import NFTCard from '../../components/NFTCard'
 
 const style = {
   bannerImageContainer: `h-[20vh] w-screen overflow-hidden flex justify-center items-center`,
@@ -31,6 +31,8 @@ const style = {
   statName: `text-lg w-full text-center mt-1`,
   description: `text-[#8a939b] text-xl w-max-1/4 flex-wrap mt-4`,
 }
+// ! our query
+
 const Collection = () => {
   const router = useRouter() // ! it has access to query id
   const { provider } = useWeb3()
@@ -59,6 +61,55 @@ const Collection = () => {
     })()
   }, [nftModule])
 
+  //! for marketplace
+  const marketplaceModule = useMemo(() => {
+    if (!provider) return
+    const sdk = new ThirdwebSDK(
+      provider.getSigner(),
+      'https://eth-rinkeby.alchemyapi.io/v2/Y_swT3kIgOwjUbFjtbwIiGPT5ML1N8KA'
+    )
+    return sdk.getMarketplaceModule(
+      '0x393770b8F920Ae6895Ef2B96927a76a5bc3bd26e'
+    )
+  }, [provider])
+  // ! get all listing in the collection
+  useEffect(() => {
+    //! if marketplace doesn't exist, return it
+    if (!marketplaceModule) return
+    ;(async () => {
+      const listings = await marketplaceModule.getAllListings()
+      setListings(listings)
+    })()
+  }, [marketplaceModule])
+
+  const fetchCollection = async (
+    sanityClient = client,
+    collectionId = collectionId
+  ) => {
+    const query = `*[_type=='marketItems' && contractAddress == ${collectionId}]{
+    'imageUrl':profileImage.asset->url,
+    'bannerImageUrl':bannerImage.asset->url,
+   volumeTraded,
+  createdBy,
+  contractAddress,
+  "creator":createdBy->userName,
+  title,floorPrice,
+  "allOwners":owners[]->,
+  description
+  
+}
+`
+    const collectionData = await sanityClient.fetch(query) //! we are fetching and storing
+
+    await setCollection(collectionData)
+  }
+
+  //! run useEffect when collectionId changes
+  useEffect(() => {
+    fetchCollection()
+  }, [collectionId])
+
+  console.log('collectionData -->', collection)
   return <div>{/* <h1>{router.query}</h1> */}</div>
 }
 
