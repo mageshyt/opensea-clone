@@ -52,7 +52,9 @@ const Header = () => {
       {/* Icons */}
       <div className={style.headerItemsIcons}>
         <div className={style.headerIcon}>
-          <CgProfile />
+          <Link href="/login/">
+            <CgProfile />
+          </Link>
         </div>
         <div className={style.headerIcon}>
           <MdOutlineAccountBalanceWallet />
