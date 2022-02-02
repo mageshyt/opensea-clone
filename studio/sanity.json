@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "opensea-clone"
+    "name": "opensea"
   },
   "api": {
-    "projectId": "ok9ac48o",
+    "projectId": "fs4cifh6",
     "dataset": "production"
   },
   "plugins": [
