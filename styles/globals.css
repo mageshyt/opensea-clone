@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .center {
+    @apply flex items-center justify-center;
+  }
+}
 html,
 body {
   padding: 0;

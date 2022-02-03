@@ -6,6 +6,7 @@ import Login from './login'
 import { useEffect } from 'react'
 import { client } from '../lib/sanityClient'
 import toast, { Toaster } from 'react-hot-toast'
+import NotableDropsFeed from '../components/NotableDrop/NotableDropsFeed'
 const style = {
   wrapper: ``,
   walletConnectWrapper: `flex flex-col justify-center items-center h-screen w-screen bg-[#3b3d42] `,
@@ -49,6 +50,7 @@ export default function Home() {
         <>
           <Header />
           <Hero />
+          <NotableDropsFeed />
         </>
       ) : (
         <Login />

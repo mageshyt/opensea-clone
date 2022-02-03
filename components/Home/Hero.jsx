@@ -1,4 +1,5 @@
 import React from 'react'
+import { AiFillPlayCircle } from 'react-icons/ai'
 const style = {
   wrapper: `relative`,
   container: `before:content-[''] before:bg-red-500 bg-gray-900 before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:bg-[url('https://lh3.googleusercontent.com/ujepnqpnL0nDQIHsWxlCXzyw4pf01yjz1Jmb4kAQHumJAPrSEj0-e3ABMZlZ1HEpJoqwOcY_kgnuJGzfXbd2Tijri66GXUtfN2MXQA=s250')] before:bg-cover before:bg-center before:opacity-30 before:blur`,
@@ -75,6 +76,7 @@ const Hero = () => {
             </div>
           </div>
         </div>
+       
       </div>
     </div>
   )
