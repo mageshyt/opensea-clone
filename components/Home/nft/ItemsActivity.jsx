@@ -5,6 +5,7 @@ import { useState } from 'react'
 // import { dummyEvents } from '../../static/dummyEvents'
 // import EventItem from './itemActivity/EventItem'
 import { client } from '../../../lib/sanityClient'
+import EventItem from './EventItem'
 const style = {
   wrapper: `w-full mt-8 border border-[#151b22] rounded-xl bg-[#303339] overflow-hidden`,
   title: `bg-[#262b2f] px-6 py-4 flex items-center`,
@@ -39,7 +40,7 @@ price,
   useEffect(() => {
     fetchCollectionData()
   }, [toggle])
-  console.log('dummyEvents 👉', dummyEvents)
+  //   console.log('dummyEvents 👉', dummyEvents)
   return (
     <div className={style.wrapper}>
       <div onClick={() => setToggle(!toggle)} className={style.title}>
@@ -74,10 +75,12 @@ price,
             <div className={`${style.tableHeaderElement} flex-[3]`}>To</div>
             <div className={`${style.tableHeaderElement} flex-[2]`}>Date</div>
           </div>
+          {dummyEvents.map((event, index) => (
+            <EventItem event={event} key={index} />
+          ))}
         </div>
       )}
     </div>
   )
 }
-
 export default ItemsActivity

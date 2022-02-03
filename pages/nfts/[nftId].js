@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import NFTImage from '../../components/Home/nft/NFTImage'
 import GeneralDetails from '../../components/Home/nft/GeneralDetails'
 import ItemsActivity from '../../components/Home/nft/ItemsActivity'
+import Purchase from '../../components/Home/nft/Purchase'
 
 const style = {
   wrapper: `flex flex-col items-center container-lg text-[#e5e8eb]`,
@@ -75,9 +76,17 @@ const nftId = () => {
             {/* Details */}
             <div className={style.detailsContainer}>
               <GeneralDetails selectedNft={selectedNft} />
+              <Purchase
+                isListed={router.query.isListed}
+                selectedNft={selectedNft}
+                listings={listings}
+                marketPlaceModule={marketPlaceModule}
+              />
             </div>
           </div>
+
           {/* Item activity */}
+
           <ItemsActivity selectedNft={selectedNft} />
         </div>
       </div>
