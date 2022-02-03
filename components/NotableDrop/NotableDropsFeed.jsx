@@ -18,7 +18,7 @@ const NotableDropsFeed = () => {
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Notable Drops Feed</h1>
       {/* card */}
-      <div className={`ml-[50px] mt-5`}>
+      <div className={`ml-[50px] mt-5 cursor-grab overflow-hidden`}>
         <Slider {...settings}>
           {/* className={`grid grid-cols-1 place-items-center gap-1 pb-10 lg:grid-cols-2 xl:grid-cols-3`} */}
 

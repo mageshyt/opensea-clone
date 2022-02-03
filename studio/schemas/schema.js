@@ -1,4 +1,3 @@
-// First, we must import the schema creator
 import createSchema from 'part:@sanity/base/schema-creator'
 
 // Then import schema types from any plugins that might expose them
@@ -100,6 +99,34 @@ export default createSchema({
             name: 'bannerImage',
             title: 'Banner Image',
             type: 'image',
+          },
+        ],
+      },
+      // for dummy data
+      {
+        name: 'DummyData',
+        title: 'Dummy Data',
+        type: 'document',
+        fields: [
+          {
+            name: 'price',
+            title: 'Price',
+            type: 'number',
+          },
+          {
+            name: 'from',
+            title: 'From',
+            type: 'string',
+          },
+          {
+            name: 'to',
+            title: 'To',
+            type: 'string',
+          },
+          {
+            name: 'date',
+            title: 'Date',
+            type: 'string',
           },
         ],
       },
