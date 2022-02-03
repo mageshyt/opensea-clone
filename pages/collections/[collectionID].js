@@ -8,10 +8,11 @@ import Header from '../../components/Header'
 import { CgWebsite } from 'react-icons/cg'
 import { AiOutlineInstagram, AiOutlineTwitter } from 'react-icons/ai'
 import { HiDotsVertical } from 'react-icons/hi'
+import NFTCard from '../../components/NFTCard'
 // import NFTCard from '../../components/NFTCard'
 
 const style = {
-  bannerImageContainer: `h-[20vh] w-screen overflow-hidden flex justify-center items-center`,
+  bannerImageContainer: `h-[20vh] w-screen overflow-hidden center`,
   bannerImage: `w-full object-cover`,
   infoContainer: `w-screen px-4`,
   midRow: `w-full flex justify-center text-white`,
@@ -36,7 +37,7 @@ const style = {
 const Collection = () => {
   const router = useRouter() // ! it has access to query id
   const { provider } = useWeb3()
-  const { collectionId } = router.query // ! get out collectionId
+  const { collectionID } = router.query // ! get out collectionId
   const [collection, setCollection] = useState({})
   const [nfts, setNfts] = useState([]) //! to store our nft variable
   const [listings, setListings] = useState([])
@@ -49,21 +50,22 @@ const Collection = () => {
       provider.getSigner(),
       'https://eth-rinkeby.alchemyapi.io/v2/Y_swT3kIgOwjUbFjtbwIiGPT5ML1N8KA'
     )
+    return sdk.getNFTModule(collectionID)
   }, [provider])
 
   //! to get all the nft from the collection
-
   useEffect(() => {
     if (!nftModule) return
     ;(async () => {
       const nfts = await nftModule.getAll()
-      setNfts(nfts) // ! we are setting our nft
+
+      setNfts(nfts)
     })()
   }, [nftModule])
 
-  //! for marketplace
-  const marketplaceModule = useMemo(() => {
+  const marketPlaceModule = useMemo(() => {
     if (!provider) return
+
     const sdk = new ThirdwebSDK(
       provider.getSigner(),
       'https://eth-rinkeby.alchemyapi.io/v2/Y_swT3kIgOwjUbFjtbwIiGPT5ML1N8KA'
@@ -72,21 +74,25 @@ const Collection = () => {
       '0x393770b8F920Ae6895Ef2B96927a76a5bc3bd26e'
     )
   }, [provider])
-  // ! get all listing in the collection
-  useEffect(() => {
-    //! if marketplace doesn't exist, return it
-    if (!marketplaceModule) return
-    ;(async () => {
-      const listings = await marketplaceModule.getAllListings()
-      setListings(listings)
-    })()
-  }, [marketplaceModule])
 
-  const fetchCollection = async (
+  // get all listings in the collection
+  useEffect(() => {
+    if (!marketPlaceModule)
+      return //! to ge the listing items in our third web market place module
+    ;(async () => {
+      const get = await marketPlaceModule.getAllListings()
+      setListings(get)
+    })()
+  }, [marketPlaceModule])
+  // console.log('listings', listings)
+  const fetchCollectionData = async (
     sanityClient = client,
-    collectionId = collectionId
+    collectionId = collectionID
   ) => {
-    const query = `*[_type=='marketItems' && contractAddress == ${collectionId}]{
+    console.log('collectionId', collectionId)
+    console.log('sanityClient', sanityClient)
+    // ! this is our query to fetch our collection
+    const query = `*[_type=='marketItems' && contractAddress == '0x8848d969Ba8432be3964b7A487AbfEd4781fa6B5']{
     'imageUrl':profileImage.asset->url,
     'bannerImageUrl':bannerImage.asset->url,
    volumeTraded,
@@ -98,19 +104,65 @@ const Collection = () => {
   description
   
 }
-`
-    const collectionData = await sanityClient.fetch(query) //! we are fetching and storing
 
-    await setCollection(collectionData)
+  `
+    const collectionData = await sanityClient.fetch(query) //! we are fetching from sanity and storing
+    await setCollection(...collectionData)
   }
+  console.log('collectionData', collection)
 
-  //! run useEffect when collectionId changes
   useEffect(() => {
-    fetchCollection()
-  }, [collectionId])
-
-  console.log('collectionData -->', collection)
-  return <div>{/* <h1>{router.query}</h1> */}</div>
+    fetchCollectionData()
+  }, [collectionID])
+  console.log('image -->', collection.bannerImageUrl)
+  return (
+    <div>
+      <Header />
+      {/* banner image */}
+      <div className={style.bannerImageContainer}>
+        <img
+          className={style.bannerImage}
+          src={
+            collection?.bannerImageUrl
+              ? collection.bannerImageUrl
+              : 'https://via.placeholder.com/200'
+          }
+          alt="banner"
+        />
+      </div>
+      {/* profile image */}
+      <div className={style.infoContainer}>
+        <div className={style.midRow}>
+          <img
+            className={style.profileImg}
+            src={
+              collection?.imageUrl
+                ? collection.imageUrl
+                : 'https://via.placeholder.com/200'
+            }
+            alt="profile image"
+          />
+        </div>
+        {/* social icons */}
+        <div className={style.endRow}></div>
+      </div>
+    </div>
+  )
 }
 
 export default Collection
+
+const SocialIconsContainer = () => {
+  return (
+    <div className={style.socialIconsContainer}>
+      <div className={style.socialIconsWrapper}>
+        <div className={style.socialIconsContent}>
+          <div className={style.socialIcon}></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+const socialIcons = ({ icons }) => {}
+
+

@@ -1,8 +1,8 @@
 import React from 'react'
 
 const styles = {
-  cardContainer: `bg-black rounded-xl h-[520px] w-[500px] md:w-[350px] `,
-  image: `h-[400px] w-[350px] rounded-t-xl `,
+  cardContainer: `bg-black rounded-xl h-[520px] w-[350px] mb-4 lg:w-[400px] `,
+  image: `h-[400px] w-[400px] rounded-t-xl `,
   imageContainer: `rounded-xl`,
   description: `text-white text-center text-sm`,
   button: `border-[0.5px] w-10 text-white rounded-xl mt-4 text-center center `,
